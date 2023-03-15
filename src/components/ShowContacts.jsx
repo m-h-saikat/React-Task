@@ -7,8 +7,11 @@ function ShowContacts({ data }) {
   const [modal, setModal] = useState(true);
   const [openModal, setOpenModal] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
-  const [page, setPage] = useState(1);
   const [filteredData, setFilteredData] = useState(data);
+  const [search, setSearch] = useState("");
+  const [name, setName] = useState("");
+
+
   const toggle = () => setModal(!modal);
   const navigate = useNavigate();
 
@@ -17,7 +20,25 @@ function ShowContacts({ data }) {
       ? setFilteredData(data.filter((contact) => Number(contact?.id) % 2 === 0))
       : setFilteredData(data);
   }, [isChecked, data]);
+  useEffect(() => {
+    isChecked
+      ? setFilteredData(data.filter((contact) => Number(contact?.id) % 2 === 0))
+      : setFilteredData(data);
+  }, [isChecked, data]);
 
+  const filteredNumbers = data.filter((number) => {
+    const phone = number.phone.toLowerCase();
+    const term = search.toLowerCase();
+    return phone.includes(term);
+  });
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    data.length != 0 && setSearch(name);
+    setFilteredData(data.filter((contact) => (contact?.phone.toLowerCase()).includes(search.toLowerCase())))
+    
+    console.log(filteredData) 
+  };
   return (
     <div>
       {openModal && (
@@ -31,6 +52,26 @@ function ShowContacts({ data }) {
         <ModalHeader toggle={() => navigate("/problem-2")} className='mx-auto'>
           Contacts
         </ModalHeader>
+        <form
+            className='row gy-2 gx-3 align-items-center mb-4'
+            onSubmit={(e) => handleSubmit(e)}
+          >
+            <div className='col-auto'>
+              <input
+                type='text'
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className='form-control'
+                placeholder='Name'
+              />
+            </div>
+          
+            <div className='col-auto'>
+              <button type='submit' className='btn btn-primary'>
+                Submit
+              </button>
+            </div>
+          </form>
         <ModalBody>
           <table className='table table-striped'>
             <thead>

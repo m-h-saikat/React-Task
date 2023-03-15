@@ -54,16 +54,7 @@ const Problem1 = () => {
               />
             </div>
             <div className='col-auto'>
-              {/* <select
-                value={status}
-                onChange={(e) => setStatus(e.target.value)}
-                className='form-select'
-                aria-label='Status'
-              >
-                <option value=''>Choose Option</option>
-                <option value='active'>Active</option>
-                <option value='completed'>Completed</option>
-              </select> */}
+            
 
               <input
                 type='text'
